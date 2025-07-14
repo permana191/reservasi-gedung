@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Selamat Datang di Sistem Reservasi Ruang Seminar</h2>
+    <p>Sistem ini memungkinkan Anda untuk melakukan reservasi ruang seminar dengan mudah.</p>
+    
+    {% if 'username' not in session %}
+        <p>Silakan <a href="{{ url_for('login') }}">login</a> atau <a href="{{ url_for('register') }}">daftar</a> untuk memulai.</p>
+    {% endif %}
+    
+    <h3>Daftar Ruangan Tersedia</h3>
+    <div class="card-container">
+        {% for id, data in ruangan.items() %}
+        <a href="{{ url_for('reservasi', id=id) }}" class="card-link">
+            <div class="card">
+                <h3>{{ data['nama'] }} ({{ id }})</h3>
+                <p><strong>Kapasitas:</strong> {{ data['kapasitas'] }} orang</p>
+                <p><strong>Fasilitas:</strong> {{ data['fasilitas'] }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

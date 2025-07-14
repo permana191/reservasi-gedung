@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Buat Reservasi Baru{% endblock %}
+
+{% block content %}
+    <h2>Buat Reservasi Ruangan</h2>
+    <form method="POST" action="{{ url_for('reservasi') }}">
+        <div class="form-group">
+            <label for="ruangan">Pilih Ruangan:</label>
+            <select id="ruangan" name="ruangan" required>
+                <option value="">-- Pilih Ruangan --</option>
+                {% for id, data in ruangan.items() %}
+                    <option value="{{ id }}">{{ data['nama'] }} (Kapasitas: {{ data['kapasitas'] }} orang)</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="nama_kegiatan">Nama Kegiatan:</label>
+            <input type="text" id="nama_kegiatan" name="nama_kegiatan" required>
+        </div>
+        <div class="form-group">
+            <label for="tanggal">Tanggal:</label>
+            <input type="date" id="tanggal" name="tanggal" required>
+        </div>
+        <div class="form-group">
+            <label for="waktu_mulai">Waktu Mulai:</label>
+            <input type="time" id="waktu_mulai" name="waktu_mulai" required>
+        </div>
+        <div class="form-group">
+            <label for="waktu_selesai">Waktu Selesai:</label>
+            <input type="time" id="waktu_selesai" name="waktu_selesai" required>
+        </div>
+        <div class="form-group">
+            <label for="peserta">Jumlah Peserta:</label>
+            <input type="number" id="peserta" name="peserta" min="1" required>
+        </div>
+        <button type="submit">Ajukan Reservasi</button>
+    </form>
+{% endblock %}

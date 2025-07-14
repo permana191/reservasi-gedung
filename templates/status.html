@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Status Reservasi{% endblock %}
+
+{% block content %}
+    <h2>Status Reservasi Anda</h2>
+    
+    {% if reservations %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ruangan</th>
+                    <th>Kegiatan</th>
+                    <th>Tanggal</th>
+                    <th>Waktu</th>
+                    <th>Peserta</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in reservations %}
+                    <tr>
+                        <td>{{ res.id }}</td>
+                        <td>{{ ruangan[res.ruangan_id]['nama'] }}</td>
+                        <td>{{ res.nama_kegiatan }}</td>
+                        <td>{{ res.tanggal }}</td>
+                        <td>{{ res.waktu_mulai }} - {{ res.waktu_selesai }}</td>
+                        <td>{{ res.peserta }}</td>
+                        <td class="status-{{ res.status|lower }}">
+                            {{ res.status }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Anda belum memiliki reservasi.</p>
+    {% endif %}
+    
+    <a href="{{ url_for('reservasi') }}" class="btn">Buat Reservasi Baru</a>
+{% endblock %}

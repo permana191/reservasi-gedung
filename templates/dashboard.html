@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h2>Dashboard - Selamat datang, {{ nama }}!</h2>
+    
+    <h3>Reservasi Terakhir Anda</h3>
+    {% if reservations %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ruangan</th>
+                    <th>Kegiatan</th>
+                    <th>Tanggal</th>
+                    <th>Waktu</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in reservations %}
+                    <tr>
+                        <td>{{ res.id }}</td>
+                        <td>{{ ruangan[res.ruangan_id]['nama'] }}</td>
+                        <td>{{ res.nama_kegiatan }}</td>
+                        <td>{{ res.tanggal }}</td>
+                        <td>{{ res.waktu_mulai }} - {{ res.waktu_selesai }}</td>
+                        <td class="status-{{ res.status|lower }}">
+                            {{ res.status }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('status') }}" class="btn">Lihat Semua Reservasi</a>
+    {% else %}
+        <p>Anda belum memiliki reservasi.</p>
+        <a href="{{ url_for('reservasi') }}" class="btn">Buat Reservasi Baru</a>
+    {% endif %}
+{% endblock %}

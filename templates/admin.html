@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+    <h2>Panel Administrator</h2>
+    
+    <h3>Semua Reservasi</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Ruangan</th>
+                <th>Kegiatan</th>
+                <th>Tanggal</th>
+                <th>Waktu</th>
+                <th>Peserta</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in reservations %}
+                <tr>
+                    <td>{{ res.id }}</td>
+                    <td>{{ res.user.username }}</td> {# Akses username melalui relasi user #}
+                    <td>{{ ruangan[res.ruangan_id]['nama'] }}</td>
+                    <td>{{ res.nama_kegiatan }}</td>
+                    <td>{{ res.tanggal }}</td>
+                    <td>{{ res.waktu_mulai }} - {{ res.waktu_selesai }}</td>
+                    <td>{{ res.peserta }}</td>
+                    <td class="status-{{ res.status|lower }}">
+                        {{ res.status }}
+                    </td>
+                    <td>
+                        {% if res.status == 'Menunggu' %}
+                            <a href="{{ url_for('approve', reservation_id=res.id) }}" class="btn">Setujui</a>
+                            <a href="{{ url_for('reject', reservation_id=res.id) }}" class="btn">Tolak</a>
+                        {% endif %}
+                        <a href="{{ url_for('delete', reservation_id=res.id) }}" class="btn">Hapus</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>Daftar User</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Nama</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.nama }}</td>
+                    <td>{{ user.role }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
