@@ -13,7 +13,6 @@
     <h3>Daftar Ruangan Tersedia</h3>
     <div class="card-container">
         {% for id, data in ruangan.items() %}
-        <a href="{{ url_for('reservasi', id=id) }}" class="card-link">
             <div class="card">
                 <h3>{{ data['nama'] }} ({{ id }})</h3>
                 <p><strong>Kapasitas:</strong> {{ data['kapasitas'] }} orang</p>

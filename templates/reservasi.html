@@ -1,39 +1,67 @@
 {% extends "base.html" %}
 
-{% block title %}Buat Reservasi Baru{% endblock %}
+{% block title %}Admin Panel{% endblock %}
 
 {% block content %}
-    <h2>Buat Reservasi Ruangan</h2>
-    <form method="POST" action="{{ url_for('reservasi') }}">
-        <div class="form-group">
-            <label for="ruangan">Pilih Ruangan:</label>
-            <select id="ruangan" name="ruangan" required>
-                <option value="">-- Pilih Ruangan --</option>
-                {% for id, data in ruangan.items() %}
-                    <option value="{{ id }}">{{ data['nama'] }} (Kapasitas: {{ data['kapasitas'] }} orang)</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="nama_kegiatan">Nama Kegiatan:</label>
-            <input type="text" id="nama_kegiatan" name="nama_kegiatan" required>
-        </div>
-        <div class="form-group">
-            <label for="tanggal">Tanggal:</label>
-            <input type="date" id="tanggal" name="tanggal" required>
-        </div>
-        <div class="form-group">
-            <label for="waktu_mulai">Waktu Mulai:</label>
-            <input type="time" id="waktu_mulai" name="waktu_mulai" required>
-        </div>
-        <div class="form-group">
-            <label for="waktu_selesai">Waktu Selesai:</label>
-            <input type="time" id="waktu_selesai" name="waktu_selesai" required>
-        </div>
-        <div class="form-group">
-            <label for="peserta">Jumlah Peserta:</label>
-            <input type="number" id="peserta" name="peserta" min="1" required>
-        </div>
-        <button type="submit">Ajukan Reservasi</button>
-    </form>
+    <h2>Panel Administrator</h2>
+    
+    <h3>Semua Reservasi</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Ruangan</th>
+                <th>Kegiatan</th>
+                <th>Tanggal</th>
+                <th>Waktu</th>
+                <th>Peserta</th>
+                <th>Status</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in reservations %}
+                <tr>
+                    <td>{{ res['id'] }}</td>
+                    <td>{{ res['username'] }}</td>
+                    <td>{{ ruangan[res['ruangan']]['nama'] }}</td>
+                    <td>{{ res['nama_kegiatan'] }}</td>
+                    <td>{{ res['tanggal'] }}</td>
+                    <td>{{ res['waktu_mulai'] }} - {{ res['waktu_selesai'] }}</td>
+                    <td>{{ res['peserta'] }}</td>
+                    <td class="status-{{ res['status']|lower }}">
+                        {{ res['status'] }}
+                    </td>
+                    <td>
+                        {% if res['status'] == 'Menunggu' %}
+                            <a href="{{ url_for('approve', reservation_id=res['id']) }}" class="btn">Setujui</a>
+                            <a href="{{ url_for('reject', reservation_id=res['id']) }}" class="btn">Tolak</a>
+                        {% endif %}
+                        <a href="{{ url_for('delete', reservation_id=res['id']) }}" class="btn">Hapus</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h3>Daftar User</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Nama</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for username, data in users.items() %}
+                <tr>
+                    <td>{{ username }}</td>
+                    <td>{{ data['nama'] }}</td>
+                    <td>{{ data['role'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

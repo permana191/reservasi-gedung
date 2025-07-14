@@ -21,14 +21,14 @@
             <tbody>
                 {% for res in reservations %}
                     <tr>
-                        <td>{{ res.id }}</td>
-                        <td>{{ ruangan[res.ruangan_id]['nama'] }}</td>
-                        <td>{{ res.nama_kegiatan }}</td>
-                        <td>{{ res.tanggal }}</td>
-                        <td>{{ res.waktu_mulai }} - {{ res.waktu_selesai }}</td>
-                        <td>{{ res.peserta }}</td>
-                        <td class="status-{{ res.status|lower }}">
-                            {{ res.status }}
+                        <td>{{ res['id'] }}</td>
+                        <td>{{ ruangan[res['ruangan']]['nama'] }}</td>
+                        <td>{{ res['nama_kegiatan'] }}</td>
+                        <td>{{ res['tanggal'] }}</td>
+                        <td>{{ res['waktu_mulai'] }} - {{ res['waktu_selesai'] }}</td>
+                        <td>{{ res['peserta'] }}</td>
+                        <td class="status-{{ res['status']|lower }}">
+                            {{ res['status'] }}
                         </td>
                     </tr>
                 {% endfor %}
